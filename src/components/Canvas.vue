@@ -2,7 +2,9 @@
   <div>
     <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
     <h1>{{ position.x }}</h1>
-    <button @click="move">tes</button>
+    <form @submit.prevent="submited">
+      <input v-model="inputed" type="text">
+    </form>
   </div>
 </template>
 
@@ -13,11 +15,13 @@ export default {
   name: 'Canvas',
   data () {
     return {
-      socket: {
-
-      },
+      inputed: '',
+      poin: 0,
+      dictionary: ['makan', 'minum', 'mandi', 'kerja'],
+      socket: {},
       context: {},
-      position: []
+      position: [],
+      index: 0
     }
   },
   created () {
@@ -38,13 +42,19 @@ export default {
       for (let i = 0; i < this.position.length; i++) {
         this.context.fillRect(this.position[i].position.x, this.position[i].position.y, 20, 20)
       }
-      console.log(this.position.x)
-      console.log(data)
     })
   },
   methods: {
     move () {
       this.socket.emit('move', 5)
+    },
+    submited () {
+      if (this.inputed === this.dictionary[this.index]) {
+        this.move()
+        this.inputed = ''
+        this.index += 1
+        this.poin += 5
+      }
     }
   }
 }
