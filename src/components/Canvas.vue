@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="canvas-container">
     <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
     <h1>{{ position.x }}</h1>
     <form @submit.prevent="submited">
@@ -70,6 +70,15 @@ export default {
 </script>
 
 <style>
+#canvas-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+}
+
 #myCanvas{
   border: 1px solid black;
   background-image: url('../assets/map.png');
