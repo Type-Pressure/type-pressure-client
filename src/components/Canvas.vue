@@ -1,17 +1,18 @@
 <template>
   <div id="canvas-container">
     <div id="winner" v-if="winner">
-      {{ winnerName }}
+      CONGRATS {{ winnerName }} YOU'RE SIMPLY THE BEST!
     </div>
     <div v-else>
-      <div>{{poin}}</div>
-      <div>{{dictionary[index]}}</div>
+      <div id="word">
+        <div id="poin">{{poin}}</div>
+        <div>{{dictionary[index]}}</div>
+      </div>
       <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
       <h1>{{ position.x }}</h1>
       <form @submit.prevent="submited">
-        <input v-model="inputed" type="text">
+        <input v-model="inputed" type="text" autofocus>
       </form>
-      <button @click="move">Click Me!</button>
     </div>
   </div>
 </template>
@@ -121,6 +122,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#word {
+  position: absolute;
+  margin-top: 3vh;
+  margin-left: 17vw;
+  background-color: transparent;
+  padding: 3vh;
+  font-size: 3vh;
+  font-weight: 900;
+  font-family:'Courier New', Courier, monospace;
+  border: 5px pink dashed;
+  color: white;
 }
 
 </style>

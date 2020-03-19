@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <!-- <audio v-if="!winner" src="./assets/tiktok.ogg" autoplay loop preload="auto" hidden></audio> -->
-    <audio controls autoplay preload="auto">
-      <source src="./assets/tiktok.ogg" type="audio/ogg">
-    </audio>
+    <audio v-if="!winner" src="./assets/tiktok.ogg" autoplay loop preload="auto" hidden></audio>
+    <audio v-if="winner" src="./assets/win.ogg" autoplay loop preload="auto" hidden></audio>
     <router-view/>
   </div>
 </template>
