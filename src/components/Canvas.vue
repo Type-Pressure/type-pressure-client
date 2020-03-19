@@ -22,7 +22,8 @@ export default {
       socket: {},
       context: {},
       position: [],
-      index: 0
+      index: 0,
+      imageUrl: ['https://i.imgur.com/VhSV0mJ.png', 'https://i.imgur.com/dIiXMva.png', 'https://i.imgur.com/z7TBY1X.png', 'https://i.imgur.com/b6IQrNR.png', 'https://i.imgur.com/ge91FP5.png']
     }
   },
   created () {
@@ -32,7 +33,7 @@ export default {
     this.socket.emit('addPlayer', {
       playerName: 'Budi',
       position: {
-        x: 0,
+        x: 60,
         y: 0
       }
     })
@@ -41,7 +42,11 @@ export default {
       this.position = data
       this.context.clearRect(0, 0, this.$refs.game.width, this.$refs.game.height)
       for (let i = 0; i < this.position.length; i++) {
-        this.context.fillRect(this.position[i].position.x, this.position[i].position.y, 20, 20)
+        const img = new Image()
+        img.src = this.imageUrl[i]
+        img.onload = () => {
+          this.context.drawImage(img, this.position[i].position.x, this.position[i].position.y, 50, 50)
+        }
       }
     })
   },
@@ -67,5 +72,9 @@ export default {
 <style>
 #myCanvas{
   border: 1px solid black;
+  background-image: url('../assets/map.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>
