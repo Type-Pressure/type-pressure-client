@@ -1,8 +1,27 @@
 <template>
   <div id="background">
-      <input id="input_button" placeholder="input name"><router-link id="join_button" to="/board">Join Game</router-link>
+    <form class="row justify-content-center" @submit.prevent="changePage">
+      <input v-model="name" id="input_button" placeholder="input name" required>
+      <input id="join_button" type="submit" value="Join">
+    </form>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      name: ''
+    }
+  },
+  methods: {
+    changePage () {
+      this.$store.commit('SET_NAME', this.name)
+      this.$router.push('/board')
+    }
+  }
+}
+</script>
 
 <style>
 #background {
@@ -36,7 +55,7 @@
 }
 
 #input_button {
-    margin-top: 6vh;
+    margin-top: 5vh;
     height: 5vh;
     margin-right: 2vw;
 }

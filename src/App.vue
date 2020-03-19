@@ -1,8 +1,22 @@
 <template>
   <div id="app">
+    <!-- <audio v-if="!winner" src="./assets/tiktok.ogg" autoplay loop preload="auto" hidden></audio> -->
+    <audio controls autoplay preload="auto">
+      <source src="./assets/tiktok.ogg" type="audio/ogg">
+    </audio>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    winner () {
+      return this.$store.state.winner
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -11,6 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin: 0;
+  padding: 0;
 }
 
 #nav {
