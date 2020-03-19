@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div>{{poin}}</div>
+    <div>{{dictionary[index]}}</div>
     <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
     <h1>{{ position.x }}</h1>
     <form @submit.prevent="submited">
@@ -18,7 +20,7 @@ export default {
     return {
       inputed: '',
       poin: 0,
-      dictionary: ['makan', 'minum', 'mandi', 'kerja'],
+      dictionary: ['makan', 'minum', 'mandi', 'kerja', 'makan', 'minum', 'mandi', 'kerja', 'makan', 'minum', 'mandi', 'kerja'],
       socket: {},
       context: {},
       position: [],
@@ -52,7 +54,6 @@ export default {
   },
   methods: {
     move () {
-      console.log('clicked')
       this.socket.emit('move', {
         position: this.position
       })
@@ -62,7 +63,7 @@ export default {
         this.move()
         this.inputed = ''
         this.index += 1
-        this.poin += 5
+        this.poin += 50
       }
     }
   }
