@@ -5,6 +5,7 @@
     <form @submit.prevent="submited">
       <input v-model="inputed" type="text">
     </form>
+    <button @click="move">Click Me!</button>
   </div>
 </template>
 
@@ -46,7 +47,10 @@ export default {
   },
   methods: {
     move () {
-      this.socket.emit('move', 5)
+      console.log('clicked')
+      this.socket.emit('move', {
+        position: this.position
+      })
     },
     submited () {
       if (this.inputed === this.dictionary[this.index]) {
