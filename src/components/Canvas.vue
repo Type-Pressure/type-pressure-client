@@ -1,7 +1,7 @@
 <template>
   <div>
     <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
-    <h1>{{ position.x }}</h1>
+    <h1 id="car">{{ position.x }}</h1>
     <button @click="move">tes</button>
   </div>
 </template>
@@ -13,9 +13,7 @@ export default {
   name: 'Canvas',
   data () {
     return {
-      socket: {
-
-      },
+      socket: {},
       context: {},
       position: []
     }
@@ -34,9 +32,19 @@ export default {
     this.context = this.$refs.game.getContext('2d')
     this.socket.on('position', data => {
       this.position = data
-      this.context.clearRect(0, 0, this.$refs.game.width, this.$refs.game.height)
+      this.context.clearRect(
+        0,
+        0,
+        this.$refs.game.width,
+        this.$refs.game.height
+      )
       for (let i = 0; i < this.position.length; i++) {
-        this.context.fillRect(this.position[i].position.x, this.position[i].position.y, 20, 20)
+        this.context.fillRect(
+          this.position[i].position.x,
+          this.position[i].position.y,
+          20,
+          20
+        )
       }
       console.log(this.position.x)
       console.log(data)
@@ -51,7 +59,13 @@ export default {
 </script>
 
 <style>
-#myCanvas{
-  border: 1px solid black;
+#myCanvas {
+  /* background-image:  url('../assets/map.png'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
+
+/* #car {
+} */
 </style>
