@@ -17,22 +17,27 @@ export default {
 
       },
       context: {},
-      position: {
-        x: 0,
-        y: 0
-      }
+      position: []
     }
   },
   created () {
     this.socket = io('http://localhost:3000')
   },
   mounted () {
+    this.socket.emit('addPlayer', {
+      playerName: 'Budi',
+      position: {
+        x: 0,
+        y: 0
+      }
+    })
     this.context = this.$refs.game.getContext('2d')
     this.socket.on('position', data => {
       this.position = data
       this.context.clearRect(0, 0, this.$refs.game.width, this.$refs.game.height)
-      this.context.fillRect(this.position.x, this.position.y, 20, 20)
-      this.context.fillRect(0, 20, 20, 20)
+      for (let i = 0; i < this.position.length; i++) {
+        this.context.fillRect(this.position[i].position.x, this.position[i].position.y, 20, 20)
+      }
       console.log(this.position.x)
       console.log(data)
     })
