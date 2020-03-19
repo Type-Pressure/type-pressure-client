@@ -1,13 +1,18 @@
 <template>
-  <div>
-    <div>{{poin}}</div>
-    <div>{{dictionary[index]}}</div>
-    <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
-    <h1>{{ position.x }}</h1>
-    <form @submit.prevent="submited">
-      <input v-model="inputed" type="text">
-    </form>
-    <button @click="move">Click Me!</button>
+  <div id="canvas-container">
+    <div id="winner" v-if="winner">
+      {{ winnerName }}
+    </div>
+    <div v-else>
+      <div>{{poin}}</div>
+      <div>{{dictionary[index]}}</div>
+      <canvas id="myCanvas" width="640" height="480" ref="game"></canvas>
+      <h1>{{ position.x }}</h1>
+      <form @submit.prevent="submited">
+        <input v-model="inputed" type="text">
+      </form>
+      <button @click="move">Click Me!</button>
+    </div>
   </div>
 </template>
 
@@ -25,15 +30,23 @@ export default {
       context: {},
       position: [],
       index: 0,
-      imageUrl: ['https://i.imgur.com/VhSV0mJ.png', 'https://i.imgur.com/dIiXMva.png', 'https://i.imgur.com/z7TBY1X.png', 'https://i.imgur.com/b6IQrNR.png', 'https://i.imgur.com/ge91FP5.png']
+      imageUrl: ['https://i.imgur.com/VhSV0mJ.png', 'https://i.imgur.com/dIiXMva.png', 'https://i.imgur.com/z7TBY1X.png', 'https://i.imgur.com/b6IQrNR.png', 'https://i.imgur.com/ge91FP5.png'],
+      winner: false,
+      winnerName: ''
+    }
+  },
+  computed: {
+    playerName () {
+      return this.$store.state.name
     }
   },
   created () {
     this.socket = io('http://localhost:3000')
+    console.log(this.playerName)
   },
   mounted () {
     this.socket.emit('addPlayer', {
-      playerName: 'Budi',
+      playerName: this.playerName,
       position: {
         x: 60,
         y: 0
@@ -51,6 +64,11 @@ export default {
         }
       }
     })
+    this.socket.on('finish', playerName => {
+      this.winner = true
+      this.$store.commit('SET_WINNER', true)
+      this.winnerName = playerName
+    })
   },
   methods: {
     move () {
@@ -63,7 +81,13 @@ export default {
         this.move()
         this.inputed = ''
         this.index += 1
-        this.poin += 50
+        if (this.poin < 500) {
+          this.poin += 50
+        }
+        if (this.poin === 500) {
+          console.log('Masuk')
+          this.socket.emit('finish', this.playerName)
+        }
       }
     }
   }
@@ -87,4 +111,16 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+#winner {
+  width: 100vw;
+  height: 100vh;
+  font-size: 10em;
+  background-color: orange;
+  color:blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
